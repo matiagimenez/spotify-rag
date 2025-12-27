@@ -5,7 +5,8 @@ from typing import Any
 from pydantic import BaseModel
 from spotipy import Spotify
 
-from spotify_rag.domain import SpotifyUser
+from spotify_rag.domain import SavedTrack, SpotifyUser
+from spotify_rag.domain.track import SpotifyArtist
 
 
 class SpotifyClient(BaseModel):
@@ -27,7 +28,7 @@ class SpotifyClient(BaseModel):
     ) -> dict[str, Any]:
         return self.client.current_user_saved_tracks(limit=limit, offset=offset)
 
-    def get_all_liked_songs(self, max_tracks: int = 500) -> list[dict[str, Any]]:
+    def get_all_liked_songs(self, max_tracks: int = 500) -> list[SavedTrack]:
         """Fetch all liked songs with pagination.
 
         Args:
@@ -36,7 +37,7 @@ class SpotifyClient(BaseModel):
         Returns:
             List of all saved track items.
         """
-        all_tracks: list[dict[str, Any]] = []
+        all_tracks: list[SavedTrack] = []
         offset = 0
         limit = 50
 
@@ -47,7 +48,7 @@ class SpotifyClient(BaseModel):
             if not items:
                 break
 
-            all_tracks.extend(items)
+            all_tracks.extend(SavedTrack.from_api_response(item) for item in items)
             offset += limit
 
             if len(items) < limit:
@@ -55,25 +56,28 @@ class SpotifyClient(BaseModel):
 
         return all_tracks[:max_tracks]
 
-    def get_audio_features(
-        self,
-        track_ids: list[str],
-    ) -> list[dict[str, Any] | None]:
-        """Get audio features for multiple tracks.
+    def get_artists(self, artist_ids: list[str]) -> list[SpotifyArtist]:
+        """Fetch full artist details (including genres) in batches.
 
         Args:
-            track_ids: List of Spotify track IDs (max 100 per call).
+            artist_ids: List of Spotify artist IDs.
 
         Returns:
-            List of audio features for each track.
+            List of artist objects containing full metadata like genres.
         """
-        # Spotify API limits to 100 tracks per request
-        batch_size = 100
-        all_features: list[dict[str, Any] | None] = []
+        batch_size = 50
+        all_artists: list[SpotifyArtist] = []
 
-        for i in range(0, len(track_ids), batch_size):
-            batch = track_ids[i : i + batch_size]
-            features = self._client.audio_features(batch)
-            all_features.extend(features)
+        # Deduplicate IDs to save calls
+        unique_ids = list(set(artist_ids))
 
-        return all_features
+        for i in range(0, len(unique_ids), batch_size):
+            batch = unique_ids[i : i + batch_size]
+            response = self.client.artists(batch)
+            if response and "artists" in response:
+                all_artists.extend(
+                    SpotifyArtist.from_api_response(artist)
+                    for artist in response["artists"]
+                )
+
+        return all_artists

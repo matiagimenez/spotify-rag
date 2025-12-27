@@ -17,31 +17,33 @@ class AppSettings(BaseSettings):
     )
 
     # Spotify API Configuration
-    spotify_client_id: str = Field(description="Spotify API Client ID")
-    spotify_client_secret: str = Field(description="Spotify API Client Secret")
-    spotify_redirect_uri: str = Field(description="OAuth redirect URI registered")
+    SPOTIFY_CLIENT_ID: str = Field(description="Spotify API Client ID")
+    SPOTIFY_CLIENT_SECRET: str = Field(description="Spotify API Client Secret")
+    SPOTIFY_REDIRECT_URI: str = Field(description="OAuth redirect URI registered")
 
     # Spotify API Scopes
-    spotify_scopes: str = Field(
+    SPOTIFY_SCOPES: str = Field(
         default="user-library-read user-read-private user-read-email",
         description="Space-separated list of Spotify API scopes",
     )
 
     # Application Paths
-    data_dir: Path = Field(
+    DATA_DIR: Path = Field(
         default=Path("./data"),
         description="Directory for storing application data",
     )
 
-    @property
-    def chromadb_path(self) -> Path:
-        """Path to ChromaDB persistent storage."""
-        return self.data_dir / "chromadb"
+    GENIUS_API_KEY: str = Field(description="Genius API Key")
 
     @property
-    def cache_path(self) -> Path:
+    def CHROMADB_PATH(self) -> Path:
+        """Path to ChromaDB persistent storage."""
+        return self.DATA_DIR / "chromadb"
+
+    @property
+    def CACHE_PATH(self) -> Path:
         """Path to cache directory."""
-        return self.data_dir / "cache"
+        return self.DATA_DIR / "cache"
 
 
 @lru_cache

@@ -15,11 +15,11 @@ class SpotifyAuthManager:
         """Get or create the SpotifyOAuth instance."""
         if self._oauth is None:
             self._oauth = SpotifyOAuth(
-                client_id=Settings.spotify_client_id,
-                client_secret=Settings.spotify_client_secret,
-                redirect_uri=Settings.spotify_redirect_uri,
-                scope=Settings.spotify_scopes,
-                cache_path=str(Settings.cache_path / ".spotify_cache"),
+                client_id=Settings.SPOTIFY_CLIENT_ID,
+                client_secret=Settings.SPOTIFY_CLIENT_SECRET,
+                redirect_uri=Settings.SPOTIFY_REDIRECT_URI,
+                scope=Settings.SPOTIFY_SCOPES,
+                cache_path=str(Settings.CACHE_PATH / ".spotify_cache"),
                 show_dialog=True,
             )
         return self._oauth

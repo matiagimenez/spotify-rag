@@ -192,7 +192,7 @@ def app() -> None:
         auth_manager = SpotifyAuthManager()
 
         # Ensure cache directory exists
-        Settings.cache_path.mkdir(parents=True, exist_ok=True)
+        Settings.CACHE_PATH.mkdir(parents=True, exist_ok=True)
 
     except Exception as e:
         render_sidebar()
@@ -267,7 +267,7 @@ def app() -> None:
                 st.session_state.user = None
 
                 # Remove cached token file
-                cache_file = Settings.cache_path / ".spotify_cache"
+                cache_file = Settings.CACHE_PATH / ".spotify_cache"
                 if cache_file.exists():
                     cache_file.unlink()
 

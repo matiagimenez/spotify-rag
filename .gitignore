@@ -29,5 +29,5 @@ var/
 .vscode/
 .idea/
 
-# Certificates
-certs/
+# Playground
+playground/
