@@ -41,7 +41,7 @@ def render_hero_section() -> None:
         <div class="hero-section">
             <h1 class="hero-title">🎵 Spotify RAG</h1>
             <p class="hero-subtitle">
-                Discover music by mood, not just metadata. 
+                Discover music by mood, not just metadata.
             </p>
             <p class="hero-subtitle">
                 Search your liked songs semantically and find the perfect track for any moment.
@@ -61,7 +61,7 @@ def render_features() -> None:
                 <div class="feature-icon">🔍</div>
                 <div class="feature-title">Semantic Search</div>
                 <div class="feature-description">
-                    Search by vibe, mood, or scenario. Find "music for coding late at night" 
+                    Search by vibe, mood, or scenario. Find "music for coding late at night"
                     or "upbeat morning energy."
                 </div>
             </div>
@@ -69,7 +69,7 @@ def render_features() -> None:
                 <div class="feature-icon">🤖</div>
                 <div class="feature-title">AI-Powered</div>
                 <div class="feature-description">
-                    Advanced AI understands the emotional context of your music 
+                    Advanced AI understands the emotional context of your music
                     and your search queries.
                 </div>
             </div>
@@ -77,7 +77,7 @@ def render_features() -> None:
                 <div class="feature-icon">💚</div>
                 <div class="feature-title">Your Library</div>
                 <div class="feature-description">
-                    Works exclusively with your liked songs. Every recommendation 
+                    Works exclusively with your liked songs. Every recommendation
                     is a song you already love.
                 </div>
             </div>
@@ -172,7 +172,7 @@ def render_sidebar() -> None:
 def handle_oauth_callback() -> str | None:
     """Handle OAuth callback and extract authorization code."""
     query_params = st.query_params
-    return query_params.get("code")
+    return query_params.get("code")  # type: ignore[no-any-return]
 
 
 def initialize_session_state() -> None:
@@ -287,8 +287,8 @@ def app() -> None:
     st.markdown(
         """
         <div class="footer">
-            <p>Made with 💚 for music lovers | 
-            <a href="https://developer.spotify.com/">Spotify API</a> | 
+            <p>Made with 💚 for music lovers |
+            <a href="https://developer.spotify.com/">Spotify API</a> |
             <a href="https://streamlit.io/">Streamlit</a></p>
         </div>
         """,
