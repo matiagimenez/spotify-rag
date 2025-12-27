@@ -1,169 +1,137 @@
-# 🎵 Project: Spotify Semantic Vibe Searcher (RAG)
+# 🎵 Project: Spotify Semantic Search (Deep Lyrics Edition)
 
 ## 📋 Overview
 
-This project aims to build a semantic search engine for your "Liked Songs" on Spotify. Instead of searching by keywords (Artist/Title), users can search by **vibe, mood, or abstract scenarios** (e.g., _"music for coding late at night"_).
+This project builds a semantic search engine for your Spotify "Liked Songs" library. It overcomes the deprecation of Spotify's Audio Features API and the lack of emotional context by combining three data sources:
 
-**Core Concept:** Convert numerical audio features (`valence`, `energy`, etc.) into natural language descriptions, embed them, and use RAG to retrieve and recommend songs.
+1. **Spotify:** Base metadata (Title, Artist, Album).
+2. **Genius:** Full song lyrics.
+3. **LLM (AI):** Analyzes the cognitive dissonance between the musical genre and the lyrical meaning (e.g., "Happy sounding music with sad lyrics").
 
 ---
 
 ## 🛠 Tech Stack
 
 - **Language:** Python 3.12+
+- **Package Manager:** `uv`
 - **Orchestration:** `LangChain`
-- **Vector Database:** `ChromaDB` (Local, persistent, lightweight)
-- **Embeddings & LLM:** `OpenAI` (`text-embedding-3-small` / `gpt-4o-mini`) OR `Ollama` (local Llama 3)
-- **Data Validation:** `Pydantic` (Great for structuring the Spotify data)
+- **Vector Database:** `ChromaDB` (Local, persistent)
+- **Data Sources:**
+- `spotipy` (Spotify Web API)
+- `lyricsgenius` (Genius API wrapper)
+
+- **Frontend:** `Streamlit`
 
 ---
 
 ## 📅 Implementation Phases
 
-### Phase 1: Environment & Authentication
+### Phase 1: Environment & Credentials (x2)
 
-Setup the foundational connection to Spotify.
+You now need keys for two different kingdoms.
 
-1. **Spotify App Setup:**
+1. **Spotify App:** Get your `CLIENT_ID` and `CLIENT_SECRET` from the Spotify Developer Dashboard.
+2. **Genius API:**
 
-- Go to [Spotify for Developers](https://developer.spotify.com/dashboard).
-- Create an app to get `CLIENT_ID` and `CLIENT_SECRET`.
-- Set Redirect URI (e.g., `http://localhost:8888/callback`).
+- Go to [Genius API Clients](https://genius.com/api-clients).
+- Create an app to generate your `GENIUS_ACCESS_TOKEN`.
 
-2. **Project Setup:**
+3. **Environment Setup:**
 
-- Initialize git repo.
-- Create `.env` file for API keys.
-- Dependencies: `uv add spotipy chromadb langchain langchain-openai pydantic`
+- Create a `.env` file:
 
-### Phase 2: Data Ingestion (ETL)
+```ini
+SPOTIPY_CLIENT_ID="..."
+SPOTIPY_CLIENT_SECRET="..."
+SPOTIPY_REDIRECT_URI="http://localhost:8501/"
+GENIUS_ACCESS_TOKEN="..."
+OPENAI_API_KEY="sk-..."
+```
 
-Extract raw data and enrich it with audio features.
+### Phase 2: Data Ingestion (The Bottleneck)
 
-1. **Fetch Liked Songs:**
+This is where the slow magic happens. Downloading lyrics takes longer than fetching metadata.
 
-- Use `sp.current_user_saved_tracks()`.
-- _Note:_ Handle pagination to get your full library (or limit to the last 500 for testing).
+1. **Fetch Spotify Data:**
 
-2. **Fetch Audio Features:**
+- Get the user's `Saved Tracks`.
+- Get the Artist's Genres (via Batch API call).
 
-- Collect Track IDs from the previous step.
-- Use `sp.audio_features(track_ids)` (Batch this! Spotify accepts up to 100 IDs per call).
+2. **Fetch Genius Data (New Step):**
 
-3. **Data Merging:**
+- Initialize: `genius = lyricsgenius.Genius(token)`.
+- **Search Strategy:** Iterate through the tracks.
+- _Sanitization:_ Clean the title before searching (remove "Remastered 2009", "- Live", etc.) to improve hit rate.
+- _Call:_ `song = genius.search_song(title, artist)`.
+- _Error Handling:_ If no lyrics are found or a timeout occurs, save `lyrics: "Not found/Instrumental"`.
 
-- Create a clean list of dictionaries merging metadata (Name, Artist) with features (Tempo, Energy, Valence).
+### Phase 3: Deep Vibe Enrichment
 
-### Phase 3: The "Semantic Bridge" (Critical Step)
+The prompt is now much more sophisticated to leverage the textual data.
 
-This is where you solve the "translation" problem. You cannot embed raw numbers effectively; you need text.
+1. **Inference Logic:**
 
-1. **Feature-to-Text Logic:**
+- Function: `analyze_track_deeply(metadata, lyrics_text)`.
+- **Truncation:** Lyrics can be long. Truncate to the first 1000-1500 characters to save tokens; the chorus and main theme are usually found there.
 
-- Write a helper function `generate_track_description(track_data)`.
-- **Logic Example:**
-- If `valence < 0.3` → "Melancholic/Sad"
-- If `energy > 0.8` → "High intensity, explosive"
-- If `acousticness > 0.8` → "Raw, acoustic instrumentals"
+2. **The Master Prompt:**
+   > "Act as an expert music critic. Analyze this song:
 
-2. **Synthetic Metadata Generation:**
+> - **Title:** {title}
+> - **Artist:** {artist}
+> - **Musical Genres:** {genres}
+> - **Lyrics Snippet:** "{lyrics_snippet}..."
 
-- Construct a final string for each song.
-- _Format:_ `"Song: {title} by {artist}. Genre: {genre}. A {mood} track with {intensity} energy. It feels {adjective}."`
-- _Why?_ When the user asks for "sad music," the vector search matches the word "sad" or "melancholic" in this synthetic string.
+> **Task:**
 
-### Phase 4: Vector Storage (RAG Backend)
+> 1. Detect the core theme of the lyrics (love, protest, grief, party).
+> 2. Contrast the lyrics with the musical genre (Is it a sad song with a happy rhythm?).
+> 3. Generate a synthetic **Vibe Description** for search purposes.
 
-Store the semantic representations.
+> **Output:** Only the descriptive sentence."
 
-1. **Initialize ChromaDB:**
+3. **Result:** _"An Indie Pop track with an upbeat tempo, but the lyrics sarcastically address modern social isolation."_
 
-- Create a persistent client: `chromadb.PersistentClient(path="./db")`.
+### Phase 4: Vector Storage
 
-2. **Embedding:**
+Similar to the previous plan, but the embedding quality will be superior.
 
-- Use an embedding model (e.g., OpenAI `text-embedding-3-small`).
-- **Document:** The synthetic text string from Phase 3.
-- **Metadata:** Store the JSON payload (`track_id`, `uri`, `artist_name`) here so you can retrieve the link later.
+1. **Embed:** Use `text-embedding-3-small` on the generated description.
+2. **Metadata:** Store `has_lyrics: bool` in ChromaDB so you can filter later if desired.
 
-3. **Upsert:**
+### Phase 5: Retrieval & Chat
 
-- Add the documents to the collection.
+The search flow remains, but the "DJ" response will be smarter.
 
-### Phase 5: The Retrieval Pipeline
+1. **Query:** "I want songs that sound happy but are deep down sad."
+2. **Match:** Thanks to the Phase 3 analysis, the system will find those songs with cognitive dissonance.
+3. **Response:** The LLM can quote a line from the lyrics to justify its choice.
 
-Build the interaction loop.
+### Phase 6: UI with Progress Feedback
 
-1. **User Input:** Accept a query (e.g., _"I need focus music for coding"_).
-2. **Semantic Search:**
+Since Genius is slow, the UI is critical.
 
-- Embed the query.
-- Query ChromaDB for the `top_k=5` closest matches.
+1. **Real Progress Bar:**
 
-3. **LLM Generation (The "DJ"):**
+- In Streamlit, use `my_bar = st.progress(0)`.
+- Update the bar for each processed song (Spotify + Genius + OpenAI).
 
-- Construct a prompt context with the retrieved songs.
-- **Prompt Template:**
-  > "You are a personalized DJ. The user asked for: '{user_query}'.
-  > Based on their library, here are the best matches:
-  > {retrieved_songs_list}
-  > Create a short playlist recommendation explaining why these specific songs fit the requested vibe."
+2. **Limit Control:**
 
-### Phase 6: Streamlit UI & OAuth (The Frontend)
+- Add a `slider` in the UI: _"How many recent songs to analyze?"_ (Default: 20, Max: 100).
+- _Warning:_ "Analyzing lyrics takes time (approx 2-3 seconds per song)."
 
-Integrate the UI and handle the login flow.
+3. **Display:**
 
-1. **Authentication (The trickiest part):**
-
-- Use `spotipy.oauth2.SpotifyOAuth`.
-- Check `st.session_state` for a token. If not present, show a "Login with Spotify" button that redirects to the auth URL.
-- Once redirected back, parse the code from the URL parameters to get the token.
-
-2. **The "Ingest" Button:**
-
-- Show a button: "Analyze my Library".
-- On click: Run Phase 2 & 3 scripts. Show a progress bar (`st.progress`).
-- _Tip:_ Cache this data or check if it already exists in ChromaDB to avoid re-running it every time.
-
-3. **Chat Interface:**
-
-- Use `st.chat_input` for the user query (e.g., "Music for a rainy day").
-- Display the LLM response using `st.write`.
-- **Visuals:** Use `st.image` to show the album art of the recommended songs next to the text.
-
----
-
-## 📂 Recommended Directory Structure
-
-```text
-spotify-rag/
-├── data/                  # ChromaDB storage
-├── src/
-│   ├── auth/
-│   │   └── oauth.py       # Streamlit-specific Auth logic
-│   ├── etl/
-│   │   ├── extract.py     # Spotify API calls
-│   │   └── transform.py   # Semantic description logic
-│   ├── rag/
-│   │   ├── vector_store.py
-│   │   └── chain.py       # LangChain setup
-│   └── ui/
-│       └── components.py  # Reusable UI widgets (e.g., song cards)
-├── app.py                 # Main Streamlit Entry point
-├── .env
-├── requirements.txt
-└── README.md
+- Show the song card, and if lyrics were found, add a small _expander_ labeled "See AI Analysis" to show the generated explanation.
 
 ```
 
-## 🚀 Definition of Done (MVP)
+## 🚀 Definition of Done (Pro Level)
 
-1. Open `localhost:8501`.
-2. Click "Login with Spotify" (Redirects and returns).
-3. Click "Analyze Library" (Progress bar fills up).
-4. Type "I need high energy music for the gym" in the chat box.
-5. Receive a text response + 5 Album covers of songs _actually_ in your library.
-
-```
-
+1. **Login:** User logs in via Spotify.
+2. **Config:** Select "Analyze last 10 songs".
+3. **Wait:** User sees the progress bar advance while logs show _"Downloading lyrics for 'Bohemian Rhapsody'..."_.
+4. **Chat:** User asks _"Which songs talk about making a mistake?"_.
+5. **Result:** App returns specific songs based on lyrical content, not just the title.
 ```

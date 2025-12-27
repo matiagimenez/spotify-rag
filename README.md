@@ -1,32 +1,71 @@
 # 🎵 Spotify Semantic Vibe Searcher (RAG)
 
 ![Python](https://img.shields.io/badge/Python-3.12%2B-blue)
-![LangChain](https://img.shields.io/badge/LangChain-RAG-green)
-![Spotify API](https://img.shields.io/badge/Spotify-API-1DB954)
+![Ollama](https://img.shields.io/badge/AI-Ollama-orange)
+![LangChain](https://img.shields.io/badge/RAG-LangChain-green)
+![Spotify API](https://img.shields.io/badge/Data-Spotify-1DB954)
+![Genius](https://img.shields.io/badge/Lyrics-Genius-FFFF00)
 
-> **Stop searching by Genre. Start searching by *Vibe*.**
+> **Stop searching by Genre. Start searching by _Vibe_ and _Meaning_.** > **Now 100% Local & Private.**
 
-This project is a **Retrieval-Augmented Generation (RAG)** application that allows you to search your personal Spotify "Liked Songs" library using natural language abstract descriptions (e.g., *"Songs for coding late at night while it's raining"*).
+This project is a **Retrieval-Augmented Generation (RAG)** application that allows you to search your personal Spotify "Liked Songs" library using natural language abstract descriptions.
 
-It bridges the gap between raw **Audio Features** (numbers) and **Human Language** (semantics) to provide personalized recommendations from your own library.
+It goes beyond simple audio features by performing a **Multi-Modal Analysis**: it bridges raw **Audio Metrics** (Spotify) and **Lyrical Content** (Genius) to understand not just how a song _sounds_, but what it _says_.
 
 ## 🧠 How it Works
 
-Standard Spotify search relies on keywords (Artist, Track Name, Genre). This project uses a **RAG pipeline**:
+Standard Spotify search relies on metadata. This project uses a **Local RAG pipeline** to create a "Semantic Fingerprint" for every song:
 
-1.  **Extraction (ETL):** Fetches your *Liked Songs* and their specific *Audio Features* (Valence, Energy, Danceability, etc.) via the Spotify API.
-2.  **Semantic Translation:** Converts numerical features into a descriptive natural language paragraph (The "Semantic Bridge").
-    * *Example:* `valence: 0.1, energy: 0.2` $\rightarrow$ *"A deeply melancholic and low-energy track, suitable for introspection."*
-3.  **Embedding:** Vectorizes these descriptions using embeddings and stores them in **ChromaDB**.
+1.  **Dual Extraction (ETL):**
+    - **Audio:** Fetches specific _Audio Features_ (Valence, Energy, Danceability, BPM) via Spotify API.
+    - **Lyrics:** Scrapes/Fetches song lyrics via the Genius API.
+2.  **Semantic Synthesis (Local LLM):**
+    - A local model (Ollama) acts as a music critic. It analyzes the **contrast** or **alignment** between the music and the words.
+    - _Input:_ `Valence: 0.8 (Happy)` + `Lyrics: "I'm so lonely"`
+    - _Output:_ _"An upbeat, high-energy track that disguises deep lyrical sorrow and isolation, creating an ironic, bittersweet atmosphere."_
+3.  **Embedding:** Vectorizes these complex synthesized descriptions into **ChromaDB**.
 4.  **Retrieval & Generation:**
-    * The user queries: *"I need music to fight a final boss."*
-    * The system performs a vector similarity search.
-    * The **LLM (DJ)** receives the top matches and explains *why* they fit the requested mood.
+    - **User Query:** _"Songs that sound happy but are actually depressing."_
+    - **Vector Search:** Finds songs where the "Semantic Fingerprint" matches this specific contrast.
+    - **The DJ (Ollama):** Explains the choice: _"I picked 'Hey Ya!' because despite its high danceability, the lyrics explicitly discuss the inability to maintain a relationship."_
 
 ## 🛠️ Tech Stack
 
-* **Language:** Python 3.12+
-* **Data Source:** [Spotify Web API](https://developer.spotify.com/documentation/web-api) (via `spotipy`)
-* **Vector Database:** [ChromaDB](https://www.trychroma.com/) (Local persistence)
-* **LLM & Embeddings:** OpenAI (GPT-4o / text-embedding-3) OR LangChain
-* **Data Validation:** Pydantic
+- **Language:** Python 3.12+
+- **Data Sources:**
+  - [Spotify Web API](https://developer.spotify.com/) (Audio Features)
+  - [Genius API](https://docs.genius.com/) (Lyrics)
+- **Inference Engine:** [Ollama](https://ollama.com/) (Llama 3 / Mistral)
+- **Vector Database:** [ChromaDB](https://www.trychroma.com/) (Local persistence)
+- **Orchestration:** LangChain
+- **Data Validation:** Pydantic
+
+## 🚀 Prerequisites
+
+1.  **Spotify App:** Get your `CLIENT_ID` and `CLIENT_SECRET` from the [Spotify Dashboard](https://developer.spotify.com/dashboard).
+2.  **Genius API:** Get a Client Access Token from the [Genius API Clients Page](https://genius.com/api-clients).
+3.  **Ollama:**
+    - Download and install [Ollama](https://ollama.com/download).
+    - Pull your model: `ollama pull llama3`
+
+## ⚙️ Configuration
+
+Create a `.env` file in the root directory:
+
+```ini
+# Spotify Credentials
+SPOTIPY_CLIENT_ID='your_spotify_id'
+SPOTIPY_CLIENT_SECRET='your_spotify_secret'
+SPOTIPY_REDIRECT_URI='http://localhost:8888/callback'
+
+# Genius Credentials (Lyrics)
+GENIUS_ACCESS_TOKEN='your_genius_token'
+
+# Ollama Settings
+OLLAMA_BASE_URL='http://localhost:11434'
+OLLAMA_MODEL='llama3'
+```
+
+## 🤝 Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
