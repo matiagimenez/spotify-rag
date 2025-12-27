@@ -7,11 +7,8 @@ from pathlib import Path
 
 import streamlit as st
 
-from spotify_rag.core.spotify_client import (
-    SpotifyAuthManager,
-    SpotifyClient,
-    SpotifyUser,
-)
+from spotify_rag.domain import SpotifyUser
+from spotify_rag.infrastructure import SpotifyAuthManager, SpotifyClient
 from spotify_rag.utils import Settings
 
 CSS_FILE = Path(__file__).parent / "styles.css"
@@ -225,7 +222,7 @@ def app() -> None:
 
                 # Get user profile
                 client = SpotifyClient(token_info["access_token"])
-                st.session_state.user = client.get_current_user()
+                st.session_state.user = client.current_user
 
                 # Clear the URL parameters
                 st.query_params.clear()
@@ -241,7 +238,7 @@ def app() -> None:
             st.session_state.access_token = cached_token["access_token"]
 
             client = SpotifyClient(cached_token["access_token"])
-            st.session_state.user = client.get_current_user()
+            st.session_state.user = client.current_user
 
     # Main content
     if st.session_state.authenticated and st.session_state.user:
