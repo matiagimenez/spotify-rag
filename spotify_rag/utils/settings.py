@@ -50,7 +50,12 @@ class AppSettings(BaseSettings):
 @lru_cache
 def get_settings() -> AppSettings:
     """Get cached application settings."""
-    return AppSettings()  # type: ignore[call-arg]
+    return AppSettings(
+        SPOTIFY_CLIENT_ID="TEST_SPOTIFY_CLIENT_ID",
+        SPOTIFY_CLIENT_SECRET="TEST_SPOTIFY_CLIENT_SECRET",
+        SPOTIFY_REDIRECT_URI="TEST_SPOTIFY_REDIRECT_URI",
+        GENIUS_API_KEY="TEST_GENIUS_API_KEY",
+    )
 
 
 Settings = get_settings()

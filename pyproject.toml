@@ -114,7 +114,7 @@ disable_error_code = [ "var-annotated" ]
 dev = "streamlit run spotify_rag/main.py"
 format = "pre-commit run --all-files --verbose"
 build = "pip install -e ."
-test = "pytest --cov=spotify_rag --cov-report=term-missing"
+test = "pytest --cov=spotify_rag --cov-report=term-missing:skip-covered"
 
 ##################################
 # ruff configuration             #
