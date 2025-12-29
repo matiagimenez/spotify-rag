@@ -8,5 +8,5 @@ from .containers import InfrastructureContainer, ServicesContainer
 class Container(containers.DeclarativeContainer):
     """Main application dependency injection container"""
 
-    infrastructure = containers.Container(InfrastructureContainer)
-    services = containers.Container(ServicesContainer)
+    infrastructure = InfrastructureContainer()
+    services = ServicesContainer(infrastructure=infrastructure)
