@@ -25,6 +25,6 @@ class LLMClient(BaseModel):
                 messages=[{"role": "user", "content": prompt}],
                 temperature=Settings.TEMPERATURE,
             )
-            return response.choices[0].message.content.strip()
+            return response.choices[0].message.content.strip()  # type: ignore[no-any-return]
         except Exception as e:
             raise RuntimeError(f"Failed to generate text: {e}") from e

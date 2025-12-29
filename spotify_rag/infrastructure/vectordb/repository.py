@@ -2,7 +2,7 @@
 
 from typing import Optional
 
-from chromadb import PersistentClient
+from chromadb import Collection, PersistentClient
 from chromadb.utils.embedding_functions import OllamaEmbeddingFunction
 from pydantic import BaseModel
 
@@ -24,10 +24,10 @@ class VectorDBRepository(BaseModel):
         return self._client
 
     @property
-    def collection(self):
+    def collection(self) -> Collection:
         return self.get_or_create_collection()
 
-    def get_or_create_collection(self):
+    def get_or_create_collection(self) -> Collection:
         """Get or create a collection by name with cosine similarity."""
         return self.client.get_or_create_collection(
             name=Settings.CHROMADB_COLLECTION,
@@ -40,19 +40,16 @@ class VectorDBRepository(BaseModel):
         if not enriched_track.vibe_description:
             return
 
+        track = enriched_track.track.track
         metadata = {
             "track_id": enriched_track.track_id,
-            "track_name": enriched_track.track.name,
-            "artist_names": enriched_track.track.artist_names,
-            "album_name": enriched_track.track.album.name,
+            "track_name": track.name,
+            "artist_names": track.artist_names,
+            "album_name": track.album.name,
             "has_lyrics": enriched_track.has_lyrics,
-            "genres": [
-                genre
-                for artist in enriched_track.track.artists
-                for genre in artist.genres
-            ],
-            "popularity": enriched_track.track.popularity,
-            "spotify_url": enriched_track.track.spotify_url or "",
+            "genres": [genre for artist in track.artists for genre in artist.genres],
+            "popularity": track.popularity,
+            "spotify_url": track.spotify_url or "",
         }
 
         self.collection.add(
@@ -66,5 +63,5 @@ class VectorDBRepository(BaseModel):
         for enriched_track in enriched_tracks:
             self.add_track(enriched_track)
 
-    def delete_tracks(self, track_ids: list[str]):
+    def delete_tracks(self, track_ids: list[str]) -> None:
         self.collection.delete(ids=track_ids)

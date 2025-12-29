@@ -44,31 +44,28 @@ class LibrarySyncService(BaseModel):
                 artist_name=artist_name,
             )
 
-            enriched_track = self.enrich_track(track)
+            enriched_track = self.enrich_track(saved_track)
             if enriched_track.vibe_description:
                 self.vectordb_repository.add_track(enriched_track)
 
             yield enriched_track
 
-    def enrich_track(self, track: SavedTrack) -> EnrichedTrack:
+    def enrich_track(self, saved_track: SavedTrack) -> EnrichedTrack:
         """Enrich a track with lyrics and vibe description."""
         lyrics = self.genius_client.search_song(
-            title=track.name,
-            artist=track.artist_names,
+            title=saved_track.track.name,
+            artist=saved_track.track.artist_names,
         )
 
-        has_lyrics = bool(lyrics)
-
         vibe_description = None
-        if has_lyrics:
+        if lyrics:
             vibe_description = self.track_analysis_service.analyze_track(
-                track=track,
+                saved_track=saved_track,
                 lyrics=lyrics,
             )
 
         return EnrichedTrack(
-            track=track,
+            track=saved_track,
             lyrics=lyrics,
-            has_lyrics=has_lyrics,
             vibe_description=vibe_description,
         )
