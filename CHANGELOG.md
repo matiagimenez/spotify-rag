@@ -1,6 +1,66 @@
 # CHANGELOG
 
 
+## v0.2.0 (2025-12-29)
+
+### Chores
+
+- **config**: Update pyproject.toml
+  ([`50f1d6c`](https://github.com/matiagimenez/spotify-rag/commit/50f1d6c4fc41c9995e5fb890dbd701cb8f69e37f))
+
+- **deps**: Bump actions/checkout from 4 to 6
+  ([`1a9295d`](https://github.com/matiagimenez/spotify-rag/commit/1a9295d8778a2690d780bb7884aa4d7e10956392))
+
+Bumps [actions/checkout](https://github.com/actions/checkout) from 4 to 6. - [Release
+  notes](https://github.com/actions/checkout/releases) -
+  [Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md) -
+  [Commits](https://github.com/actions/checkout/compare/v4...v6)
+
+--- updated-dependencies: - dependency-name: actions/checkout dependency-version: '6'
+
+dependency-type: direct:production
+
+update-type: version-update:semver-major ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+- **deps**: Bump actions/setup-python from 5 to 6
+  ([`676e247`](https://github.com/matiagimenez/spotify-rag/commit/676e2472835f7e287c8e3432ca0c13a9c69189cc))
+
+Bumps [actions/setup-python](https://github.com/actions/setup-python) from 5 to 6. - [Release
+  notes](https://github.com/actions/setup-python/releases) -
+  [Commits](https://github.com/actions/setup-python/compare/v5...v6)
+
+--- updated-dependencies: - dependency-name: actions/setup-python dependency-version: '6'
+
+dependency-type: direct:production
+
+update-type: version-update:semver-major ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+- **deps**: Bump peter-evans/create-pull-request from 7 to 8
+  ([`720c37c`](https://github.com/matiagimenez/spotify-rag/commit/720c37c9ac569e64cb6552296ccad5234ea7791a))
+
+Bumps [peter-evans/create-pull-request](https://github.com/peter-evans/create-pull-request) from 7
+  to 8. - [Release notes](https://github.com/peter-evans/create-pull-request/releases) -
+  [Commits](https://github.com/peter-evans/create-pull-request/compare/v7...v8)
+
+--- updated-dependencies: - dependency-name: peter-evans/create-pull-request dependency-version: '8'
+
+dependency-type: direct:production
+
+update-type: version-update:semver-major ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+### Features
+
+- **test**: Add unit tests for Spotify domain models and authentication manager, and introduce
+  polyfactory dependency
+  ([`d943b71`](https://github.com/matiagimenez/spotify-rag/commit/d943b71ac24d460cff0b3fbb391c617f7b526cbe))
+
+
 ## v0.1.1 (2025-12-29)
 
 ### Bug Fixes
