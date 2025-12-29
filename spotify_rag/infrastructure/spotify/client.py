@@ -69,15 +69,14 @@ class SpotifyClient(BaseModel):
         all_artists: list[SpotifyArtist] = []
 
         # Deduplicate IDs to save calls
-        unique_ids = list(set(artist_ids))
+        unique_ids = sorted(set(artist_ids))
 
         for i in range(0, len(unique_ids), batch_size):
             batch = unique_ids[i : i + batch_size]
             response = self.client.artists(batch)
             if response and "artists" in response:
-                all_artists.extend(
-                    SpotifyArtist.from_api_response(artist)
-                    for artist in response["artists"]
-                )
+                for artist in response["artists"]:
+                    if artist:
+                        all_artists.append(SpotifyArtist.from_api_response(artist))
 
         return all_artists

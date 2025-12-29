@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Any
 
-from spotipy.oauth2 import SpotifyOAuth
+from spotipy.oauth2 import CacheFileHandler, SpotifyOAuth
 
 from spotify_rag.utils import Settings
 
@@ -14,12 +14,15 @@ class SpotifyAuthManager:
     def oauth(self) -> SpotifyOAuth:
         """Get or create the SpotifyOAuth instance."""
         if self._oauth is None:
+            cache_handler = CacheFileHandler(
+                cache_path=str(Settings.CACHE_PATH / ".spotify_cache")
+            )
             self._oauth = SpotifyOAuth(
                 client_id=Settings.SPOTIFY_CLIENT_ID,
                 client_secret=Settings.SPOTIFY_CLIENT_SECRET,
                 redirect_uri=Settings.SPOTIFY_REDIRECT_URI,
                 scope=Settings.SPOTIFY_SCOPES,
-                cache_path=str(Settings.CACHE_PATH / ".spotify_cache"),
+                cache_handler=cache_handler,
                 show_dialog=True,
             )
         return self._oauth
@@ -34,7 +37,10 @@ class SpotifyAuthManager:
             return None
 
     def get_cached_token(self) -> dict[str, Any] | None:
-        return self.oauth.get_cached_token()  # type: ignore[no-any-return]
+        token_info = self.oauth.cache_handler.get_cached_token()
+        if not token_info:
+            return None
+        return self.oauth.validate_token(token_info)  # type: ignore[no-any-return]
 
     def refresh_token(self, refresh_token: str) -> dict[str, Any] | None:
         try:
