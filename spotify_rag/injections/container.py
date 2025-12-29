@@ -1,6 +1,6 @@
 """Dependency injection container for Spotify RAG."""
 
-from dependency_injector import containers
+from dependency_injector import containers, providers
 
 from .containers import InfrastructureContainer, ServicesContainer
 
@@ -8,5 +8,5 @@ from .containers import InfrastructureContainer, ServicesContainer
 class Container(containers.DeclarativeContainer):
     """Main application dependency injection container"""
 
-    infrastructure = InfrastructureContainer()
-    services = ServicesContainer(infrastructure=infrastructure)
+    infrastructure = providers.Container(InfrastructureContainer)
+    services = providers.Container(ServicesContainer, infrastructure=infrastructure)
