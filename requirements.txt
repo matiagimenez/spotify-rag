@@ -85,6 +85,7 @@ httpx==0.28.1
     # via
     #   chromadb
     #   huggingface-hub
+    #   ollama
     #   openai
 huggingface-hub==1.2.3
     # via tokenizers
@@ -140,6 +141,8 @@ oauthlib==3.3.1
     # via
     #   kubernetes
     #   requests-oauthlib
+ollama==0.6.1
+    # via spotify-rag (pyproject.toml)
 onnxruntime==1.23.2
     # via chromadb
 openai==2.14.0
@@ -201,6 +204,7 @@ pydantic==2.12.5
     # via
     #   spotify-rag (pyproject.toml)
     #   chromadb
+    #   ollama
     #   openai
     #   pydantic-settings
 pydantic-core==2.41.5
