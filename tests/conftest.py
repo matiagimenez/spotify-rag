@@ -2,6 +2,8 @@ from typing import Any
 
 import pytest
 
+pytest_plugins = ["tests.conftest_polyfactory"]
+
 
 @pytest.fixture(scope="module")
 def vcr_config() -> dict[str, Any]:

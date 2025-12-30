@@ -2,7 +2,6 @@ from unittest.mock import MagicMock
 
 import pytest
 from polyfactory.factories.pydantic_factory import ModelFactory
-from polyfactory.pytest_plugin import register_fixture
 
 from spotify_rag.domain import (
     EnrichedTrack,
@@ -15,30 +14,6 @@ from spotify_rag.domain import (
 from spotify_rag.infrastructure import GeniusClient, SpotifyClient, VectorDBRepository
 from spotify_rag.injections import container
 from spotify_rag.services import LibrarySyncService, TrackAnalysisService
-
-
-@register_fixture(name="saved_track_factory")
-class SavedTrackFactory(ModelFactory[SavedTrack]): ...
-
-
-@register_fixture(name="sync_progress_factory")
-class SyncProgressFactory(ModelFactory[SyncProgress]): ...
-
-
-@register_fixture(name="enriched_track_factory")
-class EnrichedTrackFactory(ModelFactory[EnrichedTrack]): ...
-
-
-@register_fixture(name="spotify_artist_factory")
-class SpotifyArtistFactory(ModelFactory[SpotifyArtist]): ...
-
-
-@register_fixture(name="spotify_album_factory")
-class SpotifyAlbumFactory(ModelFactory[SpotifyAlbum]): ...
-
-
-@register_fixture(name="spotify_track_factory")
-class SpotifyTrackFactory(ModelFactory[SpotifyTrack]): ...
 
 
 @pytest.fixture
