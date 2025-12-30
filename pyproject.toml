@@ -92,6 +92,7 @@ disable = [
   "consider-using-assignment-expr",
   "redefined-outer-name",
   "broad-exception-caught",
+  "import-error",
 ]
 extension-pkg-allow-list = ["dependency_injector"]
 generated-members = ["dependency_injector.*"]

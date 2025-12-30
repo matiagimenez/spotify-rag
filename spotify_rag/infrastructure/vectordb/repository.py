@@ -7,7 +7,7 @@ from chromadb.utils.embedding_functions import OllamaEmbeddingFunction
 from pydantic import BaseModel
 
 from spotify_rag.domain import EnrichedTrack
-from spotify_rag.utils import Settings
+from spotify_rag.utils import LogLevel, Settings, log
 
 
 class VectorDBRepository(BaseModel):
@@ -20,6 +20,10 @@ class VectorDBRepository(BaseModel):
         """Lazy-load persistent ChromaDB client."""
         if self._client is None:
             Settings.CHROMADB_PATH.mkdir(parents=True, exist_ok=True)
+            log(
+                f"Initializing Chr  omaDB client at {Settings.CHROMADB_PATH}",
+                LogLevel.INFO,
+            )
             self._client = PersistentClient(path=str(Settings.CHROMADB_PATH))
         return self._client
 
@@ -62,8 +66,11 @@ class VectorDBRepository(BaseModel):
 
     def add_tracks(self, enriched_tracks: list[EnrichedTrack]) -> None:
         """Add multiple enriched tracks to the collection."""
+        log(f"Adding {len(enriched_tracks)} tracks to VectorDB...", LogLevel.INFO)
         for enriched_track in enriched_tracks:
             self.add_track(enriched_track)
+        log("Successfully added tracks to VectorDB.", LogLevel.INFO)
 
     def delete_tracks(self, track_ids: list[str]) -> None:
+        log(f"Deleting {len(track_ids)} tracks from VectorDB...", LogLevel.INFO)
         self.collection.delete(ids=track_ids)

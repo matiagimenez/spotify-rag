@@ -10,7 +10,7 @@ from spotify_rag.utils import LogLevel, log
 class TrackAnalysisService(BaseModel):
     llm_client: LLMClient
 
-    def _build_analysis_prompt(self, saved_track: SavedTrack, lyrics: str) -> str:
+    def _build_analysis_prompt(self, saved_track: SavedTrack, lyrics: str) -> str:  # pylint: disable=no-self-use
         genres = []
         for artist in saved_track.track.artists:
             genres.extend(artist.genre_names)
@@ -45,12 +45,9 @@ class TrackAnalysisService(BaseModel):
             vibe_description = self.llm_client.generate(prompt)
             log(
                 f"Generated vibe description for: {saved_track.track.name}",
-                level=LogLevel.INFO,
+                LogLevel.INFO,
             )
             return vibe_description
         except Exception as e:
-            log(
-                f"Error analyzing track {saved_track.track.name}: {e}",
-                level=LogLevel.ERROR,
-            )
+            log(f"Error analyzing track {saved_track.track.name}: {e}", LogLevel.ERROR)
             return None

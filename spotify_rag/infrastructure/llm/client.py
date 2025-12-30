@@ -3,7 +3,7 @@ from typing import Optional
 from openai import OpenAI
 from pydantic import BaseModel
 
-from spotify_rag.utils import Settings
+from spotify_rag.utils import LogLevel, Settings, log
 
 
 class LLMClient(BaseModel):
@@ -27,4 +27,5 @@ class LLMClient(BaseModel):
             )
             return response.choices[0].message.content.strip()  # type: ignore[no-any-return]
         except Exception as e:
+            log(f"LLM generation failed: {e}", LogLevel.ERROR)
             raise RuntimeError(f"Failed to generate text: {e}") from e
