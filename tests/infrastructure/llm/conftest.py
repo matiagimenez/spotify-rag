@@ -1,23 +1,8 @@
-from typing import Any
 from unittest.mock import MagicMock
 
 import pytest
 
 from spotify_rag.infrastructure.llm import LLMClient
-
-
-@pytest.fixture(scope="module")
-def vcr_config() -> dict[str, Any]:
-    """VCR configuration for LLM tests.
-
-    Overrides the global ignore_localhost setting to allow recording
-    requests to the local Ollama instance.
-    """
-    return {
-        "filter_headers": [],  # Don't filter headers for Ollama
-        "ignore_localhost": False,  # Allow recording localhost requests
-        "record_mode": "once",  # Record once, then replay
-    }
 
 
 @pytest.fixture
@@ -52,5 +37,5 @@ def analysis_prompt() -> str:
     - Artist: Queen
     - Genre: Rock
     - Theme: Complex narrative about a young man's existential crisis
-    
+
     Provide a brief vibe description."""

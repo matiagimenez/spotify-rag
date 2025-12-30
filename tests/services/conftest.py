@@ -4,9 +4,17 @@ import pytest
 from polyfactory.factories.pydantic_factory import ModelFactory
 from polyfactory.pytest_plugin import register_fixture
 
-from spotify_rag.domain import EnrichedTrack, SavedTrack, SyncProgress
-from spotify_rag.infrastructure import GeniusClient, SpotifyClient
-from spotify_rag.services import LibrarySyncService
+from spotify_rag.domain import (
+    EnrichedTrack,
+    SavedTrack,
+    SpotifyAlbum,
+    SpotifyArtist,
+    SpotifyTrack,
+    SyncProgress,
+)
+from spotify_rag.infrastructure import GeniusClient, SpotifyClient, VectorDBRepository
+from spotify_rag.injections import container
+from spotify_rag.services import LibrarySyncService, TrackAnalysisService
 
 
 @register_fixture(name="saved_track_factory")
@@ -19,6 +27,18 @@ class SyncProgressFactory(ModelFactory[SyncProgress]): ...
 
 @register_fixture(name="enriched_track_factory")
 class EnrichedTrackFactory(ModelFactory[EnrichedTrack]): ...
+
+
+@register_fixture(name="spotify_artist_factory")
+class SpotifyArtistFactory(ModelFactory[SpotifyArtist]): ...
+
+
+@register_fixture(name="spotify_album_factory")
+class SpotifyAlbumFactory(ModelFactory[SpotifyAlbum]): ...
+
+
+@register_fixture(name="spotify_track_factory")
+class SpotifyTrackFactory(ModelFactory[SpotifyTrack]): ...
 
 
 @pytest.fixture
@@ -74,17 +94,63 @@ def liked_songs_lyrics(
 
 
 @pytest.fixture
+def realistic_liked_songs(
+    saved_track_factory: ModelFactory[SavedTrack],
+    spotify_track_factory: ModelFactory[SpotifyTrack],
+    spotify_artist_factory: ModelFactory[SpotifyArtist],
+    spotify_album_factory: ModelFactory[SpotifyAlbum],
+) -> list[SavedTrack]:
+    return [
+        saved_track_factory.build(
+            track=spotify_track_factory.build(
+                name="Bohemian Rhapsody",
+                artists=[
+                    spotify_artist_factory.build(
+                        name="Queen", genres=["rock", "classic rock"]
+                    )
+                ],
+                album=spotify_album_factory.build(name="A Night at the Opera"),
+                popularity=95,
+            )
+        ),
+        saved_track_factory.build(
+            track=spotify_track_factory.build(
+                name="Stairway to Heaven",
+                artists=[
+                    spotify_artist_factory.build(
+                        name="Led Zeppelin", genres=["rock", "hard rock"]
+                    )
+                ],
+                album=spotify_album_factory.build(name="Led Zeppelin IV"),
+                popularity=92,
+            )
+        ),
+        saved_track_factory.build(
+            track=spotify_track_factory.build(
+                name="Hotel California",
+                artists=[
+                    spotify_artist_factory.build(
+                        name="Eagles", genres=["rock", "country rock"]
+                    )
+                ],
+                album=spotify_album_factory.build(name="Hotel California"),
+                popularity=90,
+            )
+        ),
+    ]
+
+
+@pytest.fixture
 def mock_spotify_client(
-    liked_songs: list[SavedTrack],
+    realistic_liked_songs: list[SavedTrack],
 ) -> MagicMock:
     client = MagicMock(spec=SpotifyClient)
-    client.get_all_liked_songs.return_value = liked_songs
+    client.get_all_liked_songs.return_value = realistic_liked_songs
     return client
 
 
 @pytest.fixture
 def mock_genius_client() -> MagicMock:
-    """Create a mock GeniusClient."""
     client = MagicMock(spec=GeniusClient)
     client.search_song.side_effect = [
         "First song lyrics",
@@ -95,12 +161,25 @@ def mock_genius_client() -> MagicMock:
 
 
 @pytest.fixture
+def track_analysis_service() -> TrackAnalysisService:
+    return container.services.track_analysis_service()  # type: ignore[no-any-return]
+
+
+@pytest.fixture
+def vectordb_repository() -> VectorDBRepository:
+    return container.infrastructure.vectordb_repository()  # type: ignore[no-any-return]
+
+
+@pytest.fixture
 def library_sync_service(
     mock_spotify_client: MagicMock,
     mock_genius_client: MagicMock,
+    track_analysis_service: TrackAnalysisService,
+    vectordb_repository: VectorDBRepository,
 ) -> LibrarySyncService:
-    """Create LibrarySyncService with mocked dependencies."""
     return LibrarySyncService(
         spotify_client=mock_spotify_client,
         genius_client=mock_genius_client,
+        track_analysis_service=track_analysis_service,
+        vectordb_repository=vectordb_repository,
     )

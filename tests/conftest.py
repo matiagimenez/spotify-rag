@@ -8,6 +8,6 @@ def vcr_config() -> dict[str, Any]:
     return {
         "filter_headers": [("Authorization", "Bearer MOCKED_TOKEN")],
         "filter_query_parameters": [("access_token", "MOCKED_TOKEN")],
-        "ignore_localhost": True,
+        "ignore_localhost": False,
         "record_mode": "once",
     }

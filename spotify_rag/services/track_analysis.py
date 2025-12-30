@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 from spotify_rag.domain import SavedTrack
 from spotify_rag.infrastructure import LLMClient
-from spotify_rag.utils import logger
+from spotify_rag.utils import LogLevel, log
 
 
 class TrackAnalysisService(BaseModel):
@@ -43,8 +43,14 @@ class TrackAnalysisService(BaseModel):
         try:
             prompt = self._build_analysis_prompt(saved_track, lyrics)
             vibe_description = self.llm_client.generate(prompt)
-            logger.info(f"Generated vibe description for: {saved_track.track.name}")
+            log(
+                f"Generated vibe description for: {saved_track.track.name}",
+                level=LogLevel.INFO,
+            )
             return vibe_description
         except Exception as e:
-            logger.error(f"Error analyzing track {saved_track.track.name}: {e}")
+            log(
+                f"Error analyzing track {saved_track.track.name}: {e}",
+                level=LogLevel.ERROR,
+            )
             return None

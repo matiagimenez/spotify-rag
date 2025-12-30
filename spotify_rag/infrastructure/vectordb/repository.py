@@ -31,7 +31,9 @@ class VectorDBRepository(BaseModel):
         """Get or create a collection by name with cosine similarity."""
         return self.client.get_or_create_collection(
             name=Settings.CHROMADB_COLLECTION,
-            embedding_function=OllamaEmbeddingFunction(model=Settings.EMBEDDING_MODEL),
+            embedding_function=OllamaEmbeddingFunction(
+                model_name=Settings.EMBEDDING_MODEL
+            ),
             metadata={"hnsw:space": "cosine"},  # Use cosine similarity
         )
 
@@ -47,7 +49,7 @@ class VectorDBRepository(BaseModel):
             "artist_names": track.artist_names,
             "album_name": track.album.name,
             "has_lyrics": enriched_track.has_lyrics,
-            "genres": [genre for artist in track.artists for genre in artist.genres],
+            "genres": ", ".join(artist.genre_names for artist in track.artists),
             "popularity": track.popularity,
             "spotify_url": track.spotify_url or "",
         }
