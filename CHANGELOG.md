@@ -1,9 +1,23 @@
 # CHANGELOG
 
 
+## v0.6.0 (2026-01-02)
+
+### Bug Fixes
+
+- **test**: Add vcr marker to track exists test
+  ([`cb11119`](https://github.com/matiagimenez/spotify-vibe-searcher/commit/cb111195b06797970a7f74aedfd5a1cf45010996))
+
+- **ui**: Replace `use_container_width=True` with `width='stretch'` in UI components.
+  ([`68c4b7a`](https://github.com/matiagimenez/spotify-vibe-searcher/commit/68c4b7aa963cfe602e055bd7a53bf865533fcd42))
+
+
 ## v0.5.0 (2026-01-02)
 
 ### Bug Fixes
+
+- **test**: Add tests for `count_tracks` and `get_all_tracks` to the vectordb repository
+  ([`5b63da2`](https://github.com/matiagimenez/spotify-vibe-searcher/commit/5b63da2c3ccf01b73df9f7ff895f5d4c610d15d0))
 
 - **test**: Fix lint issues
   ([`5d7f234`](https://github.com/matiagimenez/spotify-vibe-searcher/commit/5d7f2348fbd7b9bed363c9ce9e6148fb5492b2eb))
@@ -18,6 +32,9 @@
 
 - **config**: Skip existing tracks during library synchronization to prevent re-indexing
   ([`9c26745`](https://github.com/matiagimenez/spotify-vibe-searcher/commit/9c26745f0a3271ec82b6173d1fd6c207ba542552))
+
+- **ui**: Introduce a library view to display indexed tracks
+  ([`58d89cf`](https://github.com/matiagimenez/spotify-vibe-searcher/commit/58d89cf6889375caa6fcbdaa40491662bde3788d))
 
 
 ## v0.4.1 (2026-01-02)
