@@ -162,3 +162,14 @@ def test_count_tracks_empty(
 ) -> None:
     count = vectordb_repository.count_tracks()
     assert count == 0
+
+
+def test_track_exists(
+    vectordb_repository: VectorDBRepository,
+    enriched_track_with_vibe: EnrichedTrack,
+) -> None:
+    assert not vectordb_repository.track_exists(enriched_track_with_vibe.track_id)
+
+    vectordb_repository.add_track(enriched_track_with_vibe)
+
+    assert vectordb_repository.track_exists(enriched_track_with_vibe.track_id)
