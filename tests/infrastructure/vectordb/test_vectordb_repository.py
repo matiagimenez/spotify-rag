@@ -55,6 +55,7 @@ def test_add_tracks_batch(
     assert vectordb_repository.collection.count() == initial_count + 2
 
 
+@pytest.mark.vcr
 def test_delete_tracks(
     vectordb_repository: VectorDBRepository,
     enriched_track_with_vibe: EnrichedTrack,
@@ -68,6 +69,7 @@ def test_delete_tracks(
     assert len(result["ids"]) == 0
 
 
+@pytest.mark.vcr
 def test_delete_multiple_tracks(
     vectordb_repository: VectorDBRepository,
     enriched_tracks_batch: list[EnrichedTrack],
