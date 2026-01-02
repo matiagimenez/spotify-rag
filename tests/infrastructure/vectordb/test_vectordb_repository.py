@@ -56,11 +56,11 @@ def test_add_tracks_batch(
 
 
 @pytest.mark.vcr
+@pytest.mark.usefixtures("_populate_with_single_track")
 def test_delete_tracks(
     vectordb_repository: VectorDBRepository,
     enriched_track_with_vibe: EnrichedTrack,
 ) -> None:
-    vectordb_repository.add_track(enriched_track_with_vibe)
     result = vectordb_repository.collection.get(ids=[enriched_track_with_vibe.track_id])
     assert len(result["ids"]) == 1
 
@@ -70,11 +70,11 @@ def test_delete_tracks(
 
 
 @pytest.mark.vcr
+@pytest.mark.usefixtures("_populate_with_batch")
 def test_delete_multiple_tracks(
     vectordb_repository: VectorDBRepository,
     enriched_tracks_batch: list[EnrichedTrack],
 ) -> None:
-    vectordb_repository.add_tracks(enriched_tracks_batch)
     track_ids = [
         track.track_id for track in enriched_tracks_batch if track.vibe_description
     ]
@@ -83,3 +83,57 @@ def test_delete_multiple_tracks(
     result = vectordb_repository.collection.get(ids=track_ids)
 
     assert len(result["ids"]) == 0
+
+
+@pytest.mark.vcr
+@pytest.mark.usefixtures("_populate_with_search_tracks")
+def test_search_by_vibe_finds_matching_tracks(
+    vectordb_repository: VectorDBRepository,
+) -> None:
+    results = vectordb_repository.search_by_vibe(
+        "sad songs about heartbreak", n_results=3
+    )
+
+    assert "ids" in results
+    assert "documents" in results
+    assert "metadatas" in results
+    assert "distances" in results
+
+    assert len(results["ids"][0]) > 0
+    assert len(results["documents"][0]) > 0
+
+
+@pytest.mark.vcr
+@pytest.mark.usefixtures("_populate_with_search_tracks")
+def test_search_by_vibe_returns_correct_number_of_results(
+    vectordb_repository: VectorDBRepository,
+) -> None:
+    """Test that search respects the n_results parameter."""
+    results = vectordb_repository.search_by_vibe("energetic music", n_results=2)
+
+    assert len(results["ids"][0]) <= 2
+
+
+@pytest.mark.vcr
+def test_search_by_vibe_empty_collection(
+    vectordb_repository: VectorDBRepository,
+) -> None:
+    results = vectordb_repository.search_by_vibe("any query", n_results=10)
+
+    assert len(results["ids"][0]) == 0
+    assert len(results["documents"][0]) == 0
+
+
+@pytest.mark.vcr
+@pytest.mark.usefixtures("_populate_with_search_tracks")
+def test_search_by_vibe_returns_metadata(
+    vectordb_repository: VectorDBRepository,
+) -> None:
+    results = vectordb_repository.search_by_vibe("happy upbeat songs", n_results=3)
+
+    if len(results["metadatas"][0]) > 0:
+        metadata = results["metadatas"][0][0]
+        assert "track_id" in metadata
+        assert "track_name" in metadata
+        assert "artist_names" in metadata
+        assert "album_name" in metadata

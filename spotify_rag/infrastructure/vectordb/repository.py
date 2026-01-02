@@ -74,3 +74,25 @@ class VectorDBRepository(BaseModel):
     def delete_tracks(self, track_ids: list[str]) -> None:
         log(f"Deleting {len(track_ids)} tracks from VectorDB...", LogLevel.INFO)
         self.collection.delete(ids=track_ids)
+
+    def search_by_vibe(self, query: str, n_results: int = 10) -> dict[str, list]:
+        """Search for tracks by vibe description using semantic similarity.
+
+        Args:
+            query: Natural language query describing the desired vibe.
+            n_results: Maximum number of results to return.
+
+        Returns:
+            Dictionary containing:
+                - ids: List of track IDs
+                - documents: List of vibe descriptions
+                - metadatas: List of track metadata
+                - distances: List of similarity distances (lower is better)
+        """
+        log(f"Searching for vibe: '{query}'", LogLevel.INFO)
+        results = self.collection.query(
+            query_texts=[query],
+            n_results=n_results,
+        )
+        log(f"Found {len(results['ids'][0])} matching tracks", LogLevel.INFO)
+        return results
