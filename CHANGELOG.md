@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.4.1 (2026-01-02)
+
+### Bug Fixes
+
+- **config**: Remove column layout for search button and results slider
+  ([`6d8bc15`](https://github.com/matiagimenez/spotify-rag/commit/6d8bc15700348f4e01f7482c92f92cb93b467135))
+
+
 ## v0.4.0 (2026-01-02)
 
 ### Bug Fixes
