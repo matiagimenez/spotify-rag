@@ -12,7 +12,7 @@ from spotify_rag.domain import (
     SpotifyArtist,
     SpotifyTrack,
 )
-from spotify_rag.infrastructure import GeniusClient, SpotifyClient, VectorDBRepository
+from spotify_rag.infrastructure import SpotifyClient, VectorDBRepository
 from spotify_rag.injections import container
 from spotify_rag.services import LibrarySyncService, TrackAnalysisService
 from spotify_rag.utils import Settings
@@ -20,7 +20,7 @@ from spotify_rag.utils import Settings
 
 @pytest.fixture
 def track_analysis_service() -> TrackAnalysisService:
-    return container.services.track_analysis_service()
+    return container.services.track_analysis_service()  # type: ignore[no-any-return]
 
 
 @pytest.fixture

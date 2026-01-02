@@ -3,7 +3,6 @@ from unittest.mock import MagicMock
 import pytest
 
 from spotify_rag.domain import EnrichedTrack, SyncProgress
-from spotify_rag.infrastructure import VectorDBRepository
 from spotify_rag.services import LibrarySyncService
 
 
@@ -90,7 +89,6 @@ def test_enriched_track_properties(
 @pytest.mark.usefixtures("_populate_tracks")
 def test_sync_library_skips_existing_tracks(
     library_sync_service: LibrarySyncService,
-    vectordb_repository: VectorDBRepository,
 ) -> None:
     results = list(library_sync_service.sync_library(limit=3))
 
