@@ -1,6 +1,53 @@
 # CHANGELOG
 
 
+## v0.4.0 (2026-01-02)
+
+### Bug Fixes
+
+- **config**: Enhance application observability with detailed logging across services and clients
+  ([`0be3c10`](https://github.com/matiagimenez/spotify-rag/commit/0be3c10f9bdb2b66e0c9b4afb4cddc860079451c))
+
+- **config**: Remove `access_token` from search UI component and adjust
+  `SearchResult.similarity_score` definition.
+  ([`4452bd4`](https://github.com/matiagimenez/spotify-rag/commit/4452bd44752bfaa19a9bd88117f15546e84a6ece))
+
+- **test**: Add unit tests and fixtures for the VectorDB repository
+  ([`c0fea7a`](https://github.com/matiagimenez/spotify-rag/commit/c0fea7a26d8af3eed677c9a0996df13900237109))
+
+- **test**: Add unit tests for TrackAnalysisService, including fixtures and VCR cassettes
+  ([`0e320f7`](https://github.com/matiagimenez/spotify-rag/commit/0e320f709eb290cf82d7f94ca2cef89e3c557880))
+
+- **test**: Enhace database track deletion tests with VCR cassettes
+  ([`b1357a5`](https://github.com/matiagimenez/spotify-rag/commit/b1357a569f705bc3d8d318d2f672156bc7ba9059))
+
+- **test**: Improve vector database test isolation in tests
+  ([`3c4d437`](https://github.com/matiagimenez/spotify-rag/commit/3c4d43767c378b1f539f28f3e2a912f10ff9b78c))
+
+### Chores
+
+- **config**: Remove warning log when Genius client fails to find lyrics.
+  ([`90e3eb3`](https://github.com/matiagimenez/spotify-rag/commit/90e3eb31d9a7a4b647d28df60f9cc4b8bd0657d1))
+
+- **config**: Update pre-commit hooks
+  ([`898ec2b`](https://github.com/matiagimenez/spotify-rag/commit/898ec2b2bd25cfff4690513bf7cdf4609e6a8639))
+
+### Features
+
+- **config**: Add semantic vibe search functionality
+  ([`a821fa1`](https://github.com/matiagimenez/spotify-rag/commit/a821fa179c8039886072e73eb4b5ef1bd6a05d4f))
+
+- **config**: Implement search by vibe functionality with new service, domain models, UI component,
+  and comprehensive tests.
+  ([`654f43b`](https://github.com/matiagimenez/spotify-rag/commit/654f43b6dd8867f7efd3c3822e16196105c7d99b))
+
+### Refactoring
+
+- **config**: Move imports to module scope, adjust test track data, and add pylint disable to
+  conftest files.
+  ([`9ca7e58`](https://github.com/matiagimenez/spotify-rag/commit/9ca7e58a2440bc01607910522103b3e13ea00bb1))
+
+
 ## v0.3.0 (2025-12-29)
 
 ### Bug Fixes
@@ -8,28 +55,51 @@
 - **config**: Declare sub-containers using `providers.Container` for lazy loading.
   ([`a8b9cea`](https://github.com/matiagimenez/spotify-rag/commit/a8b9ceaa9df72902b47dae733981c4120c52119c))
 
+- **test**: Add LLM client unit tests with VCR integration and update LLM base URL
+  ([`4ab0fb9`](https://github.com/matiagimenez/spotify-rag/commit/4ab0fb9c23c8de95d7e31b0ac520083a193ff7a7))
+
 - **test**: Implement tests for the LibrarySyncService and dependency injection container
   ([`1bf5272`](https://github.com/matiagimenez/spotify-rag/commit/1bf527294aede4f9662f22370490e61d30424ac8))
 
 ### Chores
 
+- **config**: Fix lint issues
+  ([`0f32ef9`](https://github.com/matiagimenez/spotify-rag/commit/0f32ef9535732d58298ad1d866db566a0df2e1c8))
+
 - **config**: Remove docstring from `injections` container.
   ([`46bec22`](https://github.com/matiagimenez/spotify-rag/commit/46bec22eb5ef02c0d556cdee5787036f84c7972b))
+
+- **config**: Update requirements.txt
+  ([`1836612`](https://github.com/matiagimenez/spotify-rag/commit/1836612984d1e3994d705f4e9d047bfa3844a8c7))
+
+- **config**: Update requirements.txt
+  ([`50f44ff`](https://github.com/matiagimenez/spotify-rag/commit/50f44ff897b5ca9c2a0095d01640c9c555f17079))
 
 - **config**: Update requirements.txt
   ([`baa41a2`](https://github.com/matiagimenez/spotify-rag/commit/baa41a2ea258fc8f4e1bfc6f31f20a71ab1c0cc6))
 
 ### Features
 
+- **config**: Add LLM client, VectorDB repository, and track analysis service
+  ([`a5b13a8`](https://github.com/matiagimenez/spotify-rag/commit/a5b13a8f626feac4b1e5506002cbaa08afca880d))
+
 - **config**: Implement library synchronization with track enrichment and dependency injection for
   services and infrastructure
   ([`7172b12`](https://github.com/matiagimenez/spotify-rag/commit/7172b129b00994eacf1eb036db5261828be75e65))
+
+- **config**: Integrate Ollama for track analysis and embedding, add VCR test cassettes, and adjust
+  VCR and logging configurations.
+  ([`a9b6636`](https://github.com/matiagimenez/spotify-rag/commit/a9b6636274349160b7c9d9645ac866b2f107bfc0))
 
 ### Refactoring
 
 - **config**: Update DI container instantiation to directly create sub-containers and pass
   dependencies.
   ([`aaffc00`](https://github.com/matiagimenez/spotify-rag/commit/aaffc001b6e0162fc6a1e8f4448ecf6a3da69eb1))
+
+- **test**: Consolidate Polyfactory fixtures into a new central plugin and remove them from
+  individual conftest files
+  ([`ca84eea`](https://github.com/matiagimenez/spotify-rag/commit/ca84eeaff6938bfa45e8632a9603f088093953da))
 
 
 ## v0.2.0 (2025-12-29)
