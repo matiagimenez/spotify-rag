@@ -102,4 +102,4 @@ class VectorDBRepository(BaseModel):
         return self.collection.get()  # type: ignore[no-any-return]
 
     def count_tracks(self) -> int:
-        return self.collection.count()
+        return int(self.collection.count())
