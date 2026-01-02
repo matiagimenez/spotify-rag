@@ -4,12 +4,7 @@ from spotify_rag.domain import SearchResults
 from spotify_rag.injections import container
 
 
-def render_search_section(access_token: str) -> None:
-    """Render the semantic search section.
-
-    Args:
-        access_token: Spotify access token for authentication.
-    """
+def render_search_section() -> None:
     if st.button("🔍 Search Vibes", use_container_width=True):
         st.session_state.show_search = True
 

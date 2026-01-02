@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, computed_field
+from pydantic import BaseModel, Field
 
 
 class SearchResult(BaseModel):
@@ -12,7 +12,6 @@ class SearchResult(BaseModel):
     popularity: int = Field(default=0)
     spotify_url: str = Field(default="")
 
-    @computed_field  # type: ignore[misc]
     @property
     def similarity_score(self) -> float:
         """Similarity score computed from distance (0-1, higher is better)."""

@@ -94,7 +94,7 @@ def render_authenticated_view(user: SpotifyUser) -> None:
             )
 
         with col_b:
-            render_search_section(access_token=st.session_state.access_token)
+            render_search_section()
 
         st.markdown("---")
 

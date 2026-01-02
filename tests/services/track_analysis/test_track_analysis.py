@@ -25,7 +25,7 @@ def test_analyze_track_builds_correct_prompt(
     sample_saved_track: SavedTrack,
     simple_lyrics: str,
 ) -> None:
-    prompt = track_analysis_service._build_analysis_prompt(
+    prompt = track_analysis_service._build_analysis_prompt(  # pylint: disable=protected-access
         sample_saved_track, simple_lyrics
     )
 

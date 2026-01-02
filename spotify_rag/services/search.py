@@ -55,7 +55,7 @@ class SearchService(BaseModel):
             total_results=len(results),
         )
 
-    def _create_search_result(
+    def _create_search_result(  # pylint: disable=no-self-use
         self,
         track_id: str,
         vibe_description: str,
