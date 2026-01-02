@@ -9,8 +9,8 @@ def render_library_section() -> None:
     st.markdown("### 📚 Knowledge Base")
     st.caption("Explore the tracks currently indexed in your local vector database.")
 
-    repo = container.infrastructure.vectordb()
-    count = repo.count_tracks()
+    repository = container.infrastructure.vectordb_repository()
+    count = repository.count_tracks()
 
     col1, col2 = st.columns([1, 3])
     with col1:
@@ -23,7 +23,7 @@ def render_library_section() -> None:
     if count > 0:
         with st.expander("View All Tracks", expanded=True):
             with st.spinner("Loading tracks..."):
-                data = repo.get_all_tracks()
+                data = repository.get_all_tracks()
 
                 if not data or not data["ids"]:
                     st.info("No tracks found.")
@@ -69,7 +69,7 @@ def render_library_section() -> None:
                             max_value=100,
                         ),
                     },
-                    use_container_width=True,
+                    width="stretch",
                     hide_index=True,
                 )
     else:

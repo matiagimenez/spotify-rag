@@ -103,7 +103,7 @@ def render_authenticated_view(user: SpotifyUser) -> None:
 
         st.markdown("---")
 
-        if st.button("🚪 Disconnect", use_container_width=True):
+        if st.button("🚪 Disconnect", width="stretch"):
             # Clear session and cached token
             st.session_state.authenticated = False
             st.session_state.access_token = None
