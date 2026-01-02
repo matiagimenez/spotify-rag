@@ -14,6 +14,7 @@ from .components import (
     render_features,
     render_footer,
     render_hero_section,
+    render_library_section,
     render_login_button,
     render_search_section,
     render_sidebar,
@@ -95,6 +96,10 @@ def render_authenticated_view(user: SpotifyUser) -> None:
 
         with col_b:
             render_search_section()
+
+        st.markdown("---")
+
+        render_library_section()
 
         st.markdown("---")
 
