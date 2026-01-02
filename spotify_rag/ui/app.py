@@ -15,6 +15,7 @@ from .components import (
     render_footer,
     render_hero_section,
     render_login_button,
+    render_search_section,
     render_sidebar,
     render_sync_library_section,
     render_user_profile,
@@ -93,8 +94,7 @@ def render_authenticated_view(user: SpotifyUser) -> None:
             )
 
         with col_b:
-            if st.button("🔍 Search Vibes", use_container_width=True):
-                st.info("🎵 Semantic search coming soon!")
+            render_search_section(access_token=st.session_state.access_token)
 
         st.markdown("---")
 
