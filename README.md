@@ -9,10 +9,7 @@
 A **Retrieval-Augmented Generation (RAG)** application that lets you search your Spotify "Liked Songs" library using natural language descriptions of vibes and emotions.
 
 > **Stop searching by Genre. Start searching by _Vibe_ and _Meaning_.** > **100% Local & Private.**
-<img width="1914" height="861" alt="Screenshot from 2026-01-03 01-43-20" src="https://github.com/user-attachments/assets/62b0e17c-c7a8-4ae7-9b56-9bc2bc21a3ee" />
-<img width="1904" height="873" alt="Screenshot from 2026-01-03 01-41-16" src="https://github.com/user-attachments/assets/34b2c3e3-bdc3-4de4-9e20-8bc1ee9a2afa" />
-<img width="1904" height="873" alt="Screenshot from 2026-01-03 01-42-23" src="https://github.com/user-attachments/assets/47deb2bc-bcf5-4116-aa86-d7b826ca5533" />
-
+<img width="1582" height="813" alt="Screenshot from 2026-01-03 09-49-37" src="https://github.com/user-attachments/assets/e88b6c04-8a76-4fe8-a97a-0cc42bf5a134" />
 
 ## ✨ Features
 
@@ -22,6 +19,10 @@ A **Retrieval-Augmented Generation (RAG)** application that lets you search your
 - 🔒 **100% Local & Private**: All AI processing happens on your machine
 - 📊 **Rich Track Metadata**: View popularity, genres, and Spotify links
 - 🎯 **Similarity Scores**: See how well each track matches your query
+
+<img width="1582" height="813" alt="Screenshot from 2026-01-03 09-50-09" src="https://github.com/user-attachments/assets/f87ad772-cc44-4588-ad7d-675f637e3dcd" />
+<img width="1582" height="813" alt="Screenshot from 2026-01-03 09-55-27" src="https://github.com/user-attachments/assets/271e2043-67b7-4ccd-b4cc-41029deff4a3" />
+<img width="1582" height="813" alt="Screenshot from 2026-01-03 09-50-17" src="https://github.com/user-attachments/assets/464dd70f-ef40-4c81-90d5-ef113e83d32f" />
 
 ## 🧠 How it Works
 
@@ -98,8 +99,8 @@ A **Retrieval-Augmented Generation (RAG)** application that lets you search your
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/matiagimenez/spotify-rag.git
-   cd spotify-rag
+   git clone https://github.com/matiagimenez/spotify-vibe-searcher.git
+   cd spotify-vibe-searcher
    ```
 
 2. **Set up environment**
