@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v0.7.0 (2026-01-03)
+
+### Bug Fixes
+
+- **config**: Inject LLM client into SearchService
+  ([`924224b`](https://github.com/matiagimenez/spotify-vibe-searcher/commit/924224ba93e33730dd2934f16946f224ca9da3df))
+
+### Features
+
+- **config**: Add query refinement
+  ([`a385437`](https://github.com/matiagimenez/spotify-vibe-searcher/commit/a385437e2f15708fe8eee6d3dffe9bc0c326ef7e))
+
+
 ## v0.6.0 (2026-01-02)
 
 ### Bug Fixes
