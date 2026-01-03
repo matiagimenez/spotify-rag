@@ -4,7 +4,7 @@ from typing import Any
 
 from spotipy.oauth2 import CacheFileHandler, SpotifyOAuth
 
-from spotify_rag.utils import Settings
+from spotify_vibe_searcher.utils import Settings
 
 
 @dataclass

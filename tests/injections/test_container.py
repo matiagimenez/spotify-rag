@@ -1,6 +1,6 @@
-from spotify_rag.infrastructure import GeniusClient, SpotifyClient
-from spotify_rag.injections import Container, container
-from spotify_rag.services import LibrarySyncService
+from spotify_vibe_searcher.infrastructure import GeniusClient, SpotifyClient
+from spotify_vibe_searcher.injections import Container, container
+from spotify_vibe_searcher.services import LibrarySyncService
 
 
 def test_container_initialization() -> None:

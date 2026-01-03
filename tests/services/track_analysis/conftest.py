@@ -4,9 +4,9 @@ from unittest.mock import patch
 import pytest
 from polyfactory.factories.pydantic_factory import ModelFactory
 
-from spotify_rag.domain import SavedTrack
-from spotify_rag.injections import container
-from spotify_rag.services import TrackAnalysisService
+from spotify_vibe_searcher.domain import SavedTrack
+from spotify_vibe_searcher.injections import container
+from spotify_vibe_searcher.services import TrackAnalysisService
 
 
 @pytest.fixture
@@ -45,7 +45,7 @@ def mock_llm_exception(
     """Fixture that mocks LLM client to raise various exceptions."""
     exception_class, error_message = request.param
     with patch(
-        "spotify_rag.infrastructure.llm.client.LLMClient.generate",
+        "spotify_vibe_searcher.infrastructure.llm.client.LLMClient.generate",
         side_effect=exception_class(error_message),
     ):
         yield exception_class, error_message

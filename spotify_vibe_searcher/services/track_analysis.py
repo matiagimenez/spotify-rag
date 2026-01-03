@@ -2,9 +2,9 @@
 
 from pydantic import BaseModel
 
-from spotify_rag.domain import SavedTrack
-from spotify_rag.infrastructure import LLMClient
-from spotify_rag.utils import LogLevel, log
+from spotify_vibe_searcher.domain import SavedTrack
+from spotify_vibe_searcher.infrastructure import LLMClient
+from spotify_vibe_searcher.utils import LogLevel, log
 
 
 class TrackAnalysisService(BaseModel):

@@ -5,9 +5,9 @@ from collections.abc import Generator
 import pytest
 from polyfactory.factories.pydantic_factory import ModelFactory
 
-from spotify_rag.domain import EnrichedTrack, SavedTrack
-from spotify_rag.infrastructure import VectorDBRepository
-from spotify_rag.utils import Settings
+from spotify_vibe_searcher.domain import EnrichedTrack, SavedTrack
+from spotify_vibe_searcher.infrastructure import VectorDBRepository
+from spotify_vibe_searcher.utils import Settings
 
 
 @pytest.fixture

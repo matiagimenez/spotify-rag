@@ -2,7 +2,7 @@
 
 from dependency_injector import containers, providers
 
-from spotify_rag.infrastructure import (
+from spotify_vibe_searcher.infrastructure import (
     GeniusClient,
     LLMClient,
     SpotifyAuthManager,

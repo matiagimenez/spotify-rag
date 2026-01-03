@@ -2,8 +2,8 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from spotify_rag.domain import EnrichedTrack, SyncProgress
-from spotify_rag.services import LibrarySyncService
+from spotify_vibe_searcher.domain import EnrichedTrack, SyncProgress
+from spotify_vibe_searcher.services import LibrarySyncService
 
 
 @pytest.mark.vcr

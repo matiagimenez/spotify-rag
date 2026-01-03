@@ -1,7 +1,7 @@
 # pylint: disable=protected-access
 import pytest
 
-from spotify_rag.infrastructure.llm import LLMClient
+from spotify_vibe_searcher.infrastructure.llm import LLMClient
 
 
 def test_client_lazy_initialization(llm_client: LLMClient) -> None:

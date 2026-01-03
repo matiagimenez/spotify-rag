@@ -4,7 +4,7 @@ import re
 from lyricsgenius import Genius
 from pydantic import BaseModel
 
-from spotify_rag.utils import LogLevel, Settings, log
+from spotify_vibe_searcher.utils import LogLevel, Settings, log
 
 
 class GeniusClient(BaseModel):

@@ -1,7 +1,7 @@
 import pytest
 
-from spotify_rag.domain import SearchResults
-from spotify_rag.services import SearchService
+from spotify_vibe_searcher.domain import SearchResults
+from spotify_vibe_searcher.services import SearchService
 
 
 @pytest.mark.vcr

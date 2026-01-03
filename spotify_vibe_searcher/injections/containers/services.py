@@ -2,7 +2,11 @@
 
 from dependency_injector import containers, providers
 
-from spotify_rag.services import LibrarySyncService, SearchService, TrackAnalysisService
+from spotify_vibe_searcher.services import (
+    LibrarySyncService,
+    SearchService,
+    TrackAnalysisService,
+)
 
 
 class ServicesContainer(containers.DeclarativeContainer):

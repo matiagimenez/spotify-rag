@@ -30,7 +30,7 @@ dependencies = [
 repository = "https://github.com/matiagimenez/spotify-rag"
 
 [tool.setuptools]
-packages = ["spotify_rag"]
+packages = ["spotify_vibe_searcher"]
 
 [dependency-groups]
 dev = [
@@ -135,17 +135,17 @@ disable_error_code = [ "var-annotated" ]
 ##################################
 
 [tool.coverage.run]
-omit = ["spotify_rag/ui/*"]
+omit = ["spotify_vibe_searcher/ui/*"]
 
 ##################################
 # poe tasks configuration        #
 ##################################
 
 [tool.poe.tasks]
-dev = "streamlit run spotify_rag/main.py"
+dev = "streamlit run spotify_vibe_searcher/main.py"
 format = "pre-commit run --all-files --verbose"
 build = "pip install -e ."
-test = "pytest --cov=spotify_rag --cov-report=term-missing:skip-covered"
+test = "pytest --cov=spotify_vibe_searcher --cov-report=term-missing:skip-covered"
 
 
 
@@ -156,7 +156,7 @@ test = "pytest --cov=spotify_rag --cov-report=term-missing:skip-covered"
 [tool.semantic_release]
 branch = "main"
 commit_message = "chore(release): release version {version}"
-version_variables = [ "spotify_rag/__init__.py:__version__" ]
+version_variables = [ "spotify_vibe_searcher/__init__.py:__version__" ]
 
 [tool.semantic_release.branches.main]
 match = "(main|master)"

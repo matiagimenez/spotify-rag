@@ -3,7 +3,7 @@ from typing import Optional
 from openai import OpenAI
 from pydantic import BaseModel
 
-from spotify_rag.utils import LogLevel, Settings, log
+from spotify_vibe_searcher.utils import LogLevel, Settings, log
 
 
 class LLMClient(BaseModel):

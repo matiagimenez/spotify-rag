@@ -5,10 +5,10 @@ A beautiful Streamlit UI for Spotify authentication and music discovery.
 
 import streamlit as st
 
-from spotify_rag.domain import SpotifyUser
-from spotify_rag.infrastructure import SpotifyAuthManager
-from spotify_rag.injections import container
-from spotify_rag.utils import Settings
+from spotify_vibe_searcher.domain import SpotifyUser
+from spotify_vibe_searcher.infrastructure import SpotifyAuthManager
+from spotify_vibe_searcher.injections import container
+from spotify_vibe_searcher.utils import Settings
 
 from .components import (
     render_features,

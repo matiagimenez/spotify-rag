@@ -1,8 +1,8 @@
 # pylint: disable=protected-access
 import pytest
 
-from spotify_rag.domain import EnrichedTrack
-from spotify_rag.infrastructure import VectorDBRepository
+from spotify_vibe_searcher.domain import EnrichedTrack
+from spotify_vibe_searcher.infrastructure import VectorDBRepository
 
 
 def test_client_lazy_loading(

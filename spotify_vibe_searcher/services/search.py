@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 
-from spotify_rag.domain import SearchResult, SearchResults
-from spotify_rag.infrastructure import LLMClient, VectorDBRepository
-from spotify_rag.utils import LogLevel, log
+from spotify_vibe_searcher.domain import SearchResult, SearchResults
+from spotify_vibe_searcher.infrastructure import LLMClient, VectorDBRepository
+from spotify_vibe_searcher.utils import LogLevel, log
 
 
 class SearchService(BaseModel):

@@ -1,7 +1,7 @@
 import streamlit as st
 
-from spotify_rag.domain import EnrichedTrack, SyncProgress
-from spotify_rag.injections import container
+from spotify_vibe_searcher.domain import EnrichedTrack, SyncProgress
+from spotify_vibe_searcher.injections import container
 
 
 def render_sync_library_section(access_token: str, track_limit: int) -> None:

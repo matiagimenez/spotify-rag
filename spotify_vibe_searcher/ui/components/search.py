@@ -1,7 +1,7 @@
 import streamlit as st
 
-from spotify_rag.domain import SearchResults
-from spotify_rag.injections import container
+from spotify_vibe_searcher.domain import SearchResults
+from spotify_vibe_searcher.injections import container
 
 
 def render_search_section() -> None:

@@ -1,4 +1,4 @@
-from spotify_rag.infrastructure import SpotifyAuthManager
+from spotify_vibe_searcher.infrastructure import SpotifyAuthManager
 
 
 def get_spotify_token() -> str | None:

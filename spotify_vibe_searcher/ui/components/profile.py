@@ -1,6 +1,6 @@
 import streamlit as st
 
-from spotify_rag.domain import SpotifyUser
+from spotify_vibe_searcher.domain import SpotifyUser
 
 DEFAULT_AVATAR = "https://i.scdn.co/image/ab6775700000ee8555c25988a6ac314394d3fbf5"
 

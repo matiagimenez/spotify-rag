@@ -1,7 +1,7 @@
 import pytest
 from polyfactory.factories.pydantic_factory import ModelFactory
 
-from spotify_rag.domain.track import (
+from spotify_vibe_searcher.domain.track import (
     SpotifyAlbum,
     SpotifyArtist,
     SpotifyImage,

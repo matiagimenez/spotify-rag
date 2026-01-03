@@ -5,9 +5,9 @@ from typing import Any
 from pydantic import BaseModel
 from spotipy import Spotify
 
-from spotify_rag.domain import SavedTrack, SpotifyUser
-from spotify_rag.domain.track import SpotifyArtist
-from spotify_rag.utils.logger import LogLevel, log
+from spotify_vibe_searcher.domain import SavedTrack, SpotifyUser
+from spotify_vibe_searcher.domain.track import SpotifyArtist
+from spotify_vibe_searcher.utils.logger import LogLevel, log
 
 
 class SpotifyClient(BaseModel):

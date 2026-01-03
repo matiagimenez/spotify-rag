@@ -1,7 +1,7 @@
 import pytest
 
-from spotify_rag.domain import SavedTrack
-from spotify_rag.services import TrackAnalysisService
+from spotify_vibe_searcher.domain import SavedTrack
+from spotify_vibe_searcher.services import TrackAnalysisService
 
 
 @pytest.mark.vcr

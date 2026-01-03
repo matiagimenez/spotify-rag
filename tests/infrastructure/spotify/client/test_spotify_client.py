@@ -1,7 +1,7 @@
 import pytest
 
-from spotify_rag.domain import SavedTrack, SpotifyArtist, SpotifyUser
-from spotify_rag.infrastructure.spotify import SpotifyClient
+from spotify_vibe_searcher.domain import SavedTrack, SpotifyArtist, SpotifyUser
+from spotify_vibe_searcher.infrastructure.spotify import SpotifyClient
 
 
 @pytest.mark.vcr

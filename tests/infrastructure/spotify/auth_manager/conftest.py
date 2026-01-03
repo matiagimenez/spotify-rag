@@ -3,13 +3,13 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from spotify_rag.infrastructure.spotify.auth_manager import SpotifyAuthManager
+from spotify_vibe_searcher.infrastructure.spotify.auth_manager import SpotifyAuthManager
 
 
 @pytest.fixture
 def mock_spotify_oauth() -> Generator[MagicMock, None, None]:
     with patch(
-        "spotify_rag.infrastructure.spotify.auth_manager.SpotifyOAuth"
+        "spotify_vibe_searcher.infrastructure.spotify.auth_manager.SpotifyOAuth"
     ) as mock_cls:
         yield mock_cls
 

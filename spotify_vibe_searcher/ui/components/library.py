@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 
-from spotify_rag.injections import container
+from spotify_vibe_searcher.injections import container
 
 
 def render_library_section() -> None:

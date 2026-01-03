@@ -153,7 +153,7 @@ Navigate to `http://localhost:8501` in your browser.
 ## 🏗️ Architecture
 
 ```
-spotify_rag/
+spotify_vibe_searcher/
 ├── domain/           # Domain models (Track, SearchResult, etc.)
 ├── infrastructure/   # External integrations
 │   ├── spotify/     # Spotify API client

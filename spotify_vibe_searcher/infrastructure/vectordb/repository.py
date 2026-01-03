@@ -6,8 +6,8 @@ from chromadb import Collection, PersistentClient
 from chromadb.utils.embedding_functions import OllamaEmbeddingFunction
 from pydantic import BaseModel
 
-from spotify_rag.domain import EnrichedTrack
-from spotify_rag.utils import LogLevel, Settings, log
+from spotify_vibe_searcher.domain import EnrichedTrack
+from spotify_vibe_searcher.utils import LogLevel, Settings, log
 
 
 class VectorDBRepository(BaseModel):

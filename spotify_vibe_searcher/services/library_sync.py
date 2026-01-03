@@ -4,9 +4,13 @@ from collections.abc import Generator
 
 from pydantic import BaseModel
 
-from spotify_rag.domain import EnrichedTrack, SavedTrack, SyncProgress
-from spotify_rag.infrastructure import GeniusClient, SpotifyClient, VectorDBRepository
-from spotify_rag.utils.logger import LogLevel, log
+from spotify_vibe_searcher.domain import EnrichedTrack, SavedTrack, SyncProgress
+from spotify_vibe_searcher.infrastructure import (
+    GeniusClient,
+    SpotifyClient,
+    VectorDBRepository,
+)
+from spotify_vibe_searcher.utils.logger import LogLevel, log
 
 from .track_analysis import TrackAnalysisService
 
