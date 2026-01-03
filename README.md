@@ -6,7 +6,7 @@
 ![ChromaDB](https://img.shields.io/badge/Vector-ChromaDB-green)
 ![Spotify API](https://img.shields.io/badge/Data-Spotify-1DB954)
 ![Genius](https://img.shields.io/badge/Lyrics-Genius-FFFF00)
-A **Retrieval-Augmented Generation (RAG)** application that lets you search your Spotify "Liked Songs" library using natural language descriptions of vibes and emotions.
+A **LLM-powered search engine** application that lets you search your Spotify "Liked Songs" library using natural language descriptions of vibes and emotions.
 
 > **Stop searching by Genre. Start searching by _Vibe_ and _Meaning_.** > **100% Local & Private.**
 <img width="1582" height="813" alt="Screenshot from 2026-01-03 09-49-37" src="https://github.com/user-attachments/assets/e88b6c04-8a76-4fe8-a97a-0cc42bf5a134" />
