@@ -59,6 +59,11 @@ class VectorDBRepository(BaseModel):
             "spotify_url": track.spotify_url,
         }
 
+        log(
+            f"Storing track '{track.name}' with genres: '{track.all_genre_names}'",
+            LogLevel.DEBUG,
+        )
+
         self.collection.add(
             ids=[enriched_track.track_id],
             documents=[enriched_track.vibe_description],

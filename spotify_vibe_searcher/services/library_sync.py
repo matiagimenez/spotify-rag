@@ -41,6 +41,8 @@ class LibrarySyncService(BaseModel):
         total = len(saved_tracks)
         log(f"Found {total} tracks to process.", LogLevel.INFO)
 
+        self._enrich_artist_genres(saved_tracks)
+
         for idx, saved_track in enumerate(saved_tracks, start=1):
             track = saved_track.track
             song_title = track.name
@@ -86,4 +88,27 @@ class LibrarySyncService(BaseModel):
             track=saved_track,
             lyrics=lyrics,
             vibe_description=vibe_description,
+        )
+
+    def _enrich_artist_genres(self, saved_tracks: list[SavedTrack]) -> None:
+        """Enrich artist data with genres by fetching full artist details"""
+        artist_ids = []
+        for saved_track in saved_tracks:
+            for artist in saved_track.track.artists:
+                artist_ids.append(artist.id_)
+
+        if not artist_ids:
+            return
+
+        artists_with_genres = self.spotify_client.get_artists(artist_ids)
+        artist_map = {artist.id_: artist for artist in artists_with_genres}
+
+        for saved_track in saved_tracks:
+            for i, artist in enumerate(saved_track.track.artists):
+                if artist.id_ in artist_map:
+                    saved_track.track.artists[i] = artist_map[artist.id_]
+
+        log(
+            f"Enriched {len(artists_with_genres)} artists with genre data.",
+            LogLevel.INFO,
         )
