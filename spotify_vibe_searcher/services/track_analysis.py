@@ -13,7 +13,7 @@ class TrackAnalysisService(BaseModel):
     def _build_analysis_prompt(self, saved_track: SavedTrack, lyrics: str) -> str:  # pylint: disable=no-self-use
         genres = []
         for artist in saved_track.track.artists:
-            genres.extend(artist.genre_names)
+            genres.extend(artist.genres)
 
         prompt = f"""
         Act as an expert music critic. Analyze this song:
